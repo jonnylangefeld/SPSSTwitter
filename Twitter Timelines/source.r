@@ -1,10 +1,10 @@
-# Twitter Search
-# Description: Search Twitter for keywords
+# Twitter Timelines
+# Description: Get the feed of twitter users
 # Author: Jonathan Langefeld - 2016
 # Icon: http://www.flaticon.com/
 # preferences:
-keyword = '%%keyword%%'
-n = %%n%%
+ids = modelerData$%%ids%%
+max = %%max%%
 api_key = '%%api_key%%'
 api_secret = '%%api_secret%%'
 access_token = '%%access_token%%'
@@ -20,18 +20,29 @@ packages <- function(x) {
 packages(twitteR)
 # sign in to Twitter
 origop <- options("httr_oauth_cache")
+print(origop)
 options(httr_oauth_cache=TRUE)
 setup_twitter_oauth(api_key, api_secret, access_token, access_secret)
-options(httr_oauth_cache=origop)
-#recieve data from twitter
-tweets <- searchTwitter(keyword, n=n)
-tweets_df = twListToDF(tweets)
+options(httr_oauth_cache=origop$httr_oauth_cache)
+#append twitter feeds to data frame
+tweets_df = data.frame()
+for (id in ids) {
+  result = tryCatch({
+    tl = userTimeline(id, n = max)
+    tl = twListToDF(tl)
+    tweets_df = rbind(tweets_df, tl)
+  }, error = function(err) {
+    print(paste0("User '",id,"' not found or another problem occured."))
+  }
+  )
+}
+#extract information of column statusSource
 sources = tweets_df$statusSource
 sources <- gsub("</a>", "", sources)
 sources <- strsplit(sources, ">")
 sources <- sapply(sources, function(x) ifelse(length(x) > 1, x[2], x[1]))
 tweets_df$statusSource = sources
-# write result to stream
+#write data to stream
 modelerData = tweets_df
 var1<-c(fieldName="text",fieldLabel="",fieldStorage="string",fieldMeasure="",fieldFormat="",fieldRole="")
 var2<-c(fieldName="favorited",fieldLabel="",fieldStorage="string",fieldMeasure="flag",fieldFormat="",fieldRole="")
