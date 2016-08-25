@@ -1,6 +1,6 @@
 ### Discover The New Palette of SPSS Modeler Twitter Nodes
 <p align="center">
-  <img src="img/Nodes.png"/ width=400px>
+  <img src="img/Nodespalette.png"/ width=400px>
 </p>
 
 * **Twitter Trends**: So what's going on right now at a specific location or worldwide.
