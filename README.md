@@ -3,7 +3,7 @@
   <img src="img/Nodespalette.png"/ width=400px>
 </p>
 
-* **Twitter Trends**: So what's going on right now at a specific location or worldwide.
+* **Twitter Trends**: See what's going on right now at a specific location or worldwide.
 * **Twitter Search**: Search twitter for a specific keyword.
 * **Twitter Users**: Get all details about users who tweeted about a keyword.
 * **Twitter Timelines**: Get all tweets of a list of users.
